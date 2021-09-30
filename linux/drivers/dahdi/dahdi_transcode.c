@@ -22,6 +22,9 @@
  * this program for more details.
  */
 
+#define HAVE_UNLOCKED_IOCTL
+#define HAVE_COMPAT_IOCTL
+
 #include <linux/kernel.h>
 #include <linux/errno.h>
 #include <linux/module.h>

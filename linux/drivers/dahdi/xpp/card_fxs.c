@@ -160,9 +160,9 @@ enum neon_state {
 static bool fxs_packet_is_valid(xpacket_t *pack);
 static void fxs_packet_dump(const char *msg, xpacket_t *pack);
 #ifdef CONFIG_PROC_FS
-static const struct file_operations proc_fxs_info_ops;
+static const struct proc_ops proc_fxs_info_ops;
 #ifdef	WITH_METERING
-static const struct file_operations proc_xpd_metering_ops;
+static const struct proc_ops proc_xpd_metering_ops;
 #endif
 #endif
 static void start_stop_vm_led(xbus_t *xbus, xpd_t *xpd, lineno_t pos);
@@ -2115,12 +2115,11 @@ static int proc_fxs_info_open(struct inode *inode, struct file *file)
 	return single_open(file, proc_fxs_info_show, PDE_DATA(inode));
 }
 
-static const struct file_operations proc_fxs_info_ops = {
-	.owner		= THIS_MODULE,
-	.open		= proc_fxs_info_open,
-	.read		= seq_read,
-	.llseek		= seq_lseek,
-	.release	= single_release,
+static const struct proc_ops proc_fxs_info_ops = {
+	.proc_open		= proc_fxs_info_open,
+	.proc_read		= seq_read,
+	.proc_lseek		= seq_lseek,
+	.proc_release	= single_release,
 };
 
 #ifdef	WITH_METERING
@@ -2165,11 +2164,10 @@ static int proc_xpd_metering_open(struct inode *inode, struct file *file)
 	file->private_data = PDE_DATA(inode);
 }
 
-static const struct file_operations proc_xpd_metering_ops = {
-	.owner		= THIS_MODULE,
-	.open		= proc_xpd_metering_open,
-	.write		= proc_xpd_metering_write,
-	.release	= single_release,
+static const struct proc_ops proc_xpd_metering_ops = {
+	.proc_open		= proc_xpd_metering_open,
+	.proc_write		= proc_xpd_metering_write,
+	.proc_release	= single_release,
 };
 #endif
 #endif

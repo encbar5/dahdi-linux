@@ -107,9 +107,9 @@ enum fxo_leds {
 static bool fxo_packet_is_valid(xpacket_t *pack);
 static void fxo_packet_dump(const char *msg, xpacket_t *pack);
 #ifdef CONFIG_PROC_FS
-static const struct file_operations proc_fxo_info_ops;
+static const struct proc_ops proc_fxo_info_ops;
 #ifdef	WITH_METERING
-static const struct file_operations proc_xpd_metering_ops;
+static const struct proc_ops proc_xpd_metering_ops;
 #endif
 #endif
 static void dahdi_report_battery(xpd_t *xpd, lineno_t chan);
@@ -1484,12 +1484,11 @@ static int proc_fxo_info_open(struct inode *inode, struct file *file)
 	return single_open(file, proc_fxo_info_show, PDE_DATA(inode));
 }
 
-static const struct file_operations proc_fxo_info_ops = {
-	.owner		= THIS_MODULE,
-	.open		= proc_fxo_info_open,
-	.read		= seq_read,
-	.llseek		= seq_lseek,
-	.release	= single_release,
+static const struct proc_ops proc_fxo_info_ops = {
+	.proc_open		= proc_fxo_info_open,
+	.proc_read		= seq_read,
+	.proc_lseek		= seq_lseek,
+	.proc_release	= single_release,
 };
 
 #ifdef	WITH_METERING
@@ -1521,12 +1520,11 @@ static int proc_xpd_metering_open(struct inode *inode, struct file *file)
 	return single_open(file, proc_xpd_metering_show, PDE_DATA(inode));
 }
 
-static const struct file_operations proc_xpd_metering_ops = {
-	.owner		= THIS_MODULE,
-	.open		= proc_xpd_metering_open,
-	.read		= seq_read,
-	.llseek		= seq_lseek,
-	.release	= single_release,
+static const struct proc_ops proc_xpd_metering_ops = {
+	.proc_open		= proc_xpd_metering_open,
+	.proc_read		= seq_read,
+	.proc_lseek		= seq_lseek,
+	.proc_release	= single_release,
 };
 
 #endif

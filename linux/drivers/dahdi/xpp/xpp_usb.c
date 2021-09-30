@@ -228,7 +228,7 @@ static int xusb_probe(struct usb_interface *interface,
 		      const struct usb_device_id *id);
 static void xusb_disconnect(struct usb_interface *interface);
 #ifdef	CONFIG_PROC_FS
-static const struct file_operations xusb_read_proc_ops;
+static const struct proc_ops xusb_read_proc_ops;
 #endif
 
 /*------------------------------------------------------------------*/
@@ -526,7 +526,6 @@ static const struct file_operations xusb_fops = {
 	 * the use-counter again before calling release()
 	 * or should the open() function fail.
 	 */
-	.owner = THIS_MODULE,
 };
 
 /*
@@ -1108,12 +1107,11 @@ static int xusb_read_proc_open(struct inode *inode, struct file *file)
 	return single_open(file, xusb_read_proc_show, PDE_DATA(inode));
 }
 
-static const struct file_operations xusb_read_proc_ops = {
-	.owner		= THIS_MODULE,
-	.open		= xusb_read_proc_open,
-	.read		= seq_read,
-	.llseek		= seq_lseek,
-	.release	= single_release,
+static const struct proc_ops xusb_read_proc_ops = {
+	.proc_open		= xusb_read_proc_open,
+	.proc_read		= seq_read,
+	.proc_lseek		= seq_lseek,
+	.proc_release	= single_release,
 };
 
 

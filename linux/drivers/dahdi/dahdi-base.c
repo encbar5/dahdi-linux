@@ -34,6 +34,8 @@
  * this program for more details.
  */
 
+#define HAVE_UNLOCKED_IOCTL
+#define HAVE_COMPAT_IOCTL
 
 #include <linux/kernel.h>
 #include <linux/errno.h>
@@ -1015,12 +1017,11 @@ static int dahdi_proc_open(struct inode *inode, struct file *file)
 	return single_open(file, dahdi_seq_show, PDE_DATA(inode));
 }
 
-static const struct file_operations dahdi_proc_ops = {
-	.owner		= THIS_MODULE,
-	.open		= dahdi_proc_open,
-	.read		= seq_read,
-	.llseek		= seq_lseek,
-	.release	= single_release,
+static const struct proc_ops dahdi_proc_ops = {
+	.proc_open		= dahdi_proc_open,
+	.proc_read		= seq_read,
+	.proc_lseek		= seq_lseek,
+	.proc_release	= single_release,
 };
 
 #endif

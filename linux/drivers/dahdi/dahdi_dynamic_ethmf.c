@@ -733,11 +733,11 @@ static int ztdethmf_proc_open(struct inode *inode, struct file *file)
 	return single_open(file, ztdethmf_proc_show, NULL);
 }
 
-static const struct file_operations ztdethmf_proc_fops = {
-	.open           = ztdethmf_proc_open,
-	.read           = seq_read,
-	.llseek         = seq_lseek,
-	.release        = seq_release,
+static const struct proc_ops ztdethmf_proc_fops = {
+	.proc_open           = ztdethmf_proc_open,
+	.proc_read           = seq_read,
+	.proc_lseek         = seq_lseek,
+	.proc_release        = seq_release,
 };
 #endif
 
